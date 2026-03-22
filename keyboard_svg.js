@@ -27,12 +27,7 @@ if (!mode){ mode = "ergo" }
 var thumb = params.thumb;
 if (!thumb){ thumb = "l" }
 var lang = "english";
-if (params.lan) {
-  lang = params.lan;
-  if (lang != "english"){
-    selectLanguage(lang);
-  }
-}
+
 var needs_update = true;
 
 function scroll(event){
@@ -65,7 +60,7 @@ var stats = d3.select("#svgstats").append("svg").attr("width", swidth).attr("hei
 const el = document.querySelector("#svgstats");
 el.onwheel = scroll;
 
-const word_list_url = 'words-english.json';
+const word_list_url = 'words-'+lang+'.json';
 const dictionary_url = 'dictionary.json';
 const effort_url = 'bigram_effort.json';
 let words = {};
@@ -104,12 +99,12 @@ function fetchDictionary(){
 async function loadAllData() {
   try {
       const [wordsData, dictionaryData, effortData] = await Promise.all([
-          fetch(word_list_url).then(response => response.json()),
-          fetch(dictionary_url).then(response => response.json()),
-          fetch(effort_url).then(response => response.json())
+        fetch(word_list_url).then(response => response.json()),
+        fetch(dictionary_url).then(response => response.json()),
+        fetch(effort_url).then(response => response.json())
       ]);
 
-      // Assign the data to your global variables!
+      // Assign the data to the global variables
       words = wordsData;
       dictionary = dictionaryData.dictionary || [];
       bigram_effort = effortData;
@@ -131,28 +126,18 @@ async function loadAllData() {
   }
 }
 
-function selectLanguage(lan,event) {
+function selectLanguage(lan, event) {
   lang = lan
   var queryParams = new URLSearchParams(window.location.search);
   queryParams.set("lan",lang)
   history.replaceState(null, null, "?"+queryParams.toString());
-  if (lan == "english"){
-    console.log("============ ENGLISH ============")
-    updateRcData(lan);
-    dictionaryloaded = true;
-    dataloaded = true;
-    needs_update = true;
-    loadAllData();
-    document.getElementById("langDropDown").innerHTML = lan.charAt(0).toUpperCase() + lan.substr(1).toLowerCase();
-    return;
-  }
 
   var word_list = 'words-'+lan+'.json';
   console.log("============ "+lan.toUpperCase()+" ============")
   fetch(word_list)
   .then(response => response.json())
   .then(data => {
-      if (event.ctrlKey){
+      if (event && event.ctrlKey){
         console.log("adding "+lan+" to words")
         for (var word in data) {
           if (words[word]){
@@ -1586,29 +1571,30 @@ function measureWords() {
           if (ppfinger == finger && ppchar != char) {
             cat = "alt sfs"
           }
+          //          1                  2                3
         } else if (ppfinger <= 5 && prevfinger <= 5 && finger >= 6 && ppfinger < prevfinger) { // LLR
-          cat = "bigram roll in"
-        }
-        else if (ppfinger >= 6 && prevfinger >= 6 && finger <= 5 && ppfinger > prevfinger) { // RRL
-          cat = "bigram roll in"
-        }
-        else if (ppfinger <= 5 && prevfinger <= 5 && finger >= 6 && ppfinger > prevfinger) { // LLR
-          cat = "bigram roll out"
-        }
-        else if (ppfinger >= 6 && prevfinger >= 6 && finger <= 5 && ppfinger < prevfinger) { // RRL
-          cat = "bigram roll out"
-        }
-        else if (ppfinger <= 5 && prevfinger >= 6 && finger >= 6 && prevfinger > finger) { // LRR
-          cat = "bigram roll in"
+          cat = "bigram roll in" // LEFT
         }
         else if (ppfinger >= 6 && prevfinger <= 5 && finger <= 5 && prevfinger < finger) { // RLL
-          cat = "bigram roll in"
+          cat = "bigram roll in" // LEFT
         }
-        else if (ppfinger <= 5 && prevfinger >= 6 && finger >= 6 && prevfinger < finger) { // LRR
-          cat = "bigram roll out"
+        else if (ppfinger <= 5 && prevfinger <= 5 && finger >= 6 && ppfinger > prevfinger) { // LLR
+          cat = "bigram roll out" // LEFT
         }
         else if (ppfinger >= 6 && prevfinger <= 5 && finger <= 5 && prevfinger > finger) { // RLL
-          cat = "bigram roll out";
+          cat = "bigram roll out"; // LEFT
+        }
+        else if (ppfinger >= 6 && prevfinger >= 6 && finger <= 5 && ppfinger > prevfinger) { // RRL
+          cat = "bigram roll in" // RIGHT
+        }
+        else if (ppfinger <= 5 && prevfinger >= 6 && finger >= 6 && prevfinger > finger) { // LRR
+          cat = "bigram roll in" // RIGHT
+        }
+        else if (ppfinger >= 6 && prevfinger >= 6 && finger <= 5 && ppfinger < prevfinger) { // RRL
+          cat = "bigram roll out" // RIGHT
+        }
+        else if (ppfinger <= 5 && prevfinger >= 6 && finger >= 6 && prevfinger < finger) { // LRR
+          cat = "bigram roll out" // RIGHT
         }
         if (!m_trigram_count[cat]) {
           m_trigram_count[cat] = 0;
@@ -2501,3 +2487,9 @@ if (url_layout) {
   importLayout(url_layout)
 }
 loadAllData()
+if (params.lan) {
+  lang = params.lan;
+  if (lang != "english"){
+    selectLanguage(lang);
+  }
+}
