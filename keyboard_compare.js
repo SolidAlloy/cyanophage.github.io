@@ -1316,7 +1316,7 @@ function getDictionaryFromWords() {
 
 function getIndexOfKey(name){
   var x = -1;
-  for (var i = 0; i < 34; i++) {
+  for (var i = 0; i < rcdata.length; i++) {
     if (rcdata[i][7] == name) {
       x = i;
     }
@@ -2712,6 +2712,10 @@ function makeDraggable(svg) {
   }
 }
 
+if (params.lan) {
+  lang = params.lan;
+}
+updateRcData(lang);
 if (url_layout1 && url_layout2) {
   importLayouts(url_layout1, url_layout2)
 }

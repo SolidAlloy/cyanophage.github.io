@@ -1283,7 +1283,7 @@ function getDictionaryFromWords() {
 
 function getIndexOfKey(name){
   var x = -1;
-  for (var i = 0; i < 34; i++) {
+  for (var i = 0; i < rcdata.length; i++) {
     if (rcdata[i][7] == name) {
       x = i;
     }
@@ -2676,6 +2676,7 @@ function makeDraggable(svg) {
   }
 }
 
+updateRcData(lang);
 if (url_layout) {
   importLayout(url_layout)
 }
