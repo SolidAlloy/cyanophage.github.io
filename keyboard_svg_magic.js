@@ -1325,20 +1325,35 @@ function updateRcData(lan) {
   // my new idea for fixing this issue still didn't work
   // the problem is that the keys that I want to change when switching languages aren't in a consistent position in the grid, or at a consistent position in the array,
   // or have a consistent letter on them. Even the index I added to try to make them consistent didn't work because of the way the import process works
-  if (lan == 'german'){
+  if (lan == 'ukrainian') {
+    var ukr = [
+      'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х',
+      'ф', 'і', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'є',
+      'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '.', ','
+    ];
+    for(var i=0; i<33; i++){
+      if(getIndexOfKey(i) >= 0) { rcdata[getIndexOfKey(i)][0] = ukr[i]; }
+    }
+    if (getIndexOfKey(35) >= 0) { rcdata[getIndexOfKey(35)][0] = 'ґ'; }
+    if (getIndexOfKey(36) >= 0) { rcdata[getIndexOfKey(36)][0] = 'ї'; }
+  } else if (lan == 'english') {
+    var eng = [
+      'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '-',
+      'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', '\'',
+      'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', '\\'
+    ];
+    for(var i=0; i<33; i++){
+      if(getIndexOfKey(i) >= 0) { rcdata[getIndexOfKey(i)][0] = eng[i]; }
+    }
+    if (getIndexOfKey(35) >= 0) { rcdata[getIndexOfKey(35)][0] = '$'; }
+    if (getIndexOfKey(36) >= 0) { rcdata[getIndexOfKey(36)][0] = 'enter'; }
+  } else if (lan == 'german'){
     // letters = ['q', 'w', 'e', 'r', 't', 'z', 'u', 'i', 'o', 'p', 'ü', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'ö', 'ä', 'y','x', 'c', 'v', 'b', 'n', 'm', ',', '.', '\'', 'ß']
     if (getIndexOfKey(10) >= 0) { rcdata[getIndexOfKey(10)][0] = 'ü' }
     if (getIndexOfKey(20) >= 0) { rcdata[getIndexOfKey(20)][0] = 'ö' }
     if (getIndexOfKey(21) >= 0) { rcdata[getIndexOfKey(21)][0] = '\'' }
     if (getIndexOfKey(31) >= 0) { rcdata[getIndexOfKey(31)][0] = 'ä' }
     if (getIndexOfKey(32) >= 0) { rcdata[getIndexOfKey(32)][0] = 'ß' }
-  } else if (lan == 'english') {
-    // letters = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '-', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', '\'', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/','\\']
-    if (getIndexOfKey(10) >= 0) { rcdata[getIndexOfKey(10)][0] = '-' }
-    if (getIndexOfKey(20) >= 0) { rcdata[getIndexOfKey(20)][0] = ';' }
-    if (getIndexOfKey(21) >= 0) { rcdata[getIndexOfKey(21)][0] = '\'' }
-    if (getIndexOfKey(31) >= 0) { rcdata[getIndexOfKey(31)][0] = '/' }
-    if (getIndexOfKey(32) >= 0) { rcdata[getIndexOfKey(32)][0] = '\\' }
   } else if (lan == 'dutch') {
     // letters = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '-', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', '\'', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/','\\']
     if (getIndexOfKey(10) >= 0) { rcdata[getIndexOfKey(10)][0] = '-' }
@@ -2570,7 +2585,7 @@ function makeDraggable(svg) {
           }
         }
         // console.log("keyname = "+keyname);
-        if (keyname == "mod" || keyname == "back" || keyname == "space" || keyname == "tab" || keyname == "ctrl" || keyname == "enter"){
+        if (keyname == "mod" || keyname == "back" || keyname == "space" || keyname == "tab" || keyname == "ctrl"){
           selectedElement = null;
           return;
         }
@@ -2609,7 +2624,7 @@ function makeDraggable(svg) {
         d = dist(x, y, rcdata[i][5], rcdata[i][4]);
         keyname = rcdata[i][0];
         if (d < closestdist) {
-          if (keyname == "mod" || keyname == "back" || keyname == "space" || keyname == "tab" || keyname == "ctrl" || keyname == "enter") {
+          if (keyname == "mod" || keyname == "back" || keyname == "space" || keyname == "tab" || keyname == "ctrl") {
           } else {
             closestdist = d;
             dropi = i;
