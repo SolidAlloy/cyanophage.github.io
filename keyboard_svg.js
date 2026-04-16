@@ -1220,24 +1220,22 @@ function updateRcData(lan) {
     var ukr = [
       'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х',
       'ф', 'і', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'є',
-      'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '.', ','
+      'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '.', 'ґ',
+	  ',', 'ї'
     ];
-    for(var i=0; i<33; i++){
+    for(var i=0; i<35; i++){
       if(getIndexOfKey(i) >= 0) { rcdata[getIndexOfKey(i)][0] = ukr[i]; }
     }
-    if (getIndexOfKey(35) >= 0) { rcdata[getIndexOfKey(35)][0] = 'ґ'; }
-    if (getIndexOfKey(36) >= 0) { rcdata[getIndexOfKey(36)][0] = 'ї'; }
   } else if (lan == 'english') {
     var eng = [
       'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '-',
       'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', '\'',
-      'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', '\\'
+      'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', '\\',
+	  '^'
     ];
-    for(var i=0; i<33; i++){
+    for(var i=0; i<34; i++){
       if(getIndexOfKey(i) >= 0) { rcdata[getIndexOfKey(i)][0] = eng[i]; }
     }
-    if (getIndexOfKey(35) >= 0) { rcdata[getIndexOfKey(35)][0] = '$'; }
-    if (getIndexOfKey(36) >= 0) { rcdata[getIndexOfKey(36)][0] = 'enter'; }
   } else if (lan == 'dutch') {
     // letters = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '-', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', '\'', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/','\\']
     if (getIndexOfKey(10) >= 0) { rcdata[getIndexOfKey(10)][0] = '-' }
