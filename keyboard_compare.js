@@ -2549,7 +2549,7 @@ function makeDraggable(svg) {
           }
         }
         // console.log("keyname = "+keyname);
-        if (keyname == "mod" || keyname == "back" || keyname == "space" || keyname == "tab" || keyname == "ctrl"){
+        if (keyname == "mod" || keyname == "back" || keyname == "space" || keyname == "tab"){
           selectedElement = null;
           return;
         }
@@ -2589,7 +2589,7 @@ function makeDraggable(svg) {
           d = dist(x, y, rcdata[i][5], rcdata[i][4]);
           keyname = rcdata[i][0];
           if (d < closestdist) {
-            if (keyname == "mod" || keyname == "back" || keyname == "tab" || keyname == "ctrl" || keyname == "enter") {
+            if (keyname == "mod" || keyname == "back" || keyname == "tab" || keyname == "enter") {
             } else {
               closestdist = d;
               dropi = i;
@@ -2654,7 +2654,7 @@ function makeDraggable(svg) {
           d = dist(x, y, rcdata2[i][5], rcdata2[i][4]);
           keyname = rcdata2[i][0];
           if (d < closestdist) {
-            if (keyname == "mod" || keyname == "back" || keyname == "tab" || keyname == "ctrl" || keyname == "enter") {
+            if (keyname == "mod" || keyname == "back" || keyname == "tab" || keyname == "enter") {
             } else {
               closestdist = d;
               dropi = i;
